@@ -27,4 +27,13 @@ public class PrimeTest {
 
     }
 
+    @Test
+    public void testNthPrime() throws Exception {
+
+        assertEquals(2, Prime.nthPrime(1));
+        assertEquals(31, Prime.nthPrime(11));
+        assertEquals(997, Prime.nthPrime(168));
+        assertEquals(71, Prime.nthPrime(20));
+        assertEquals(0, Prime.nthPrime(0));
+    }
 }

@@ -25,6 +25,9 @@ public class Prime {
     }
 
     public static int nthPrime(int n) {
+
+        if (n < 1) return 0;
+
         int candidate, count;
         for(candidate = 2, count = 0; count < n; ++candidate) {
             if (isPrime(candidate)) {
@@ -33,6 +36,23 @@ public class Prime {
         }
         // The candidate has been incremented once after the count reached n
         return candidate-1;
+    }
+
+    public static void main(String[] args) {
+        // main job execution
+        int[] testArray = {1,3,4,5,7,8};
+        int ans = 0;
+        // sleep once for all numbers processed in batch
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < testArray.length; i++) {
+            ans = Prime.nthPrime(testArray[i]);
+            System.out.println(ans);
+            // log answer
+        }
     }
 
 }
