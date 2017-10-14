@@ -1,23 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Jordan on 10/4/2017.
  */
 public class Prime implements Runnable{
-    private BlockingQueue taskQueue = null;
-    private boolean       isStopped = false;
 
     private List<Integer> primes = new ArrayList<>();   // list to hold previous primes
     private int n;
 
     public Prime(int n){
-        this.n = n;
-    }
-
-    public Prime(BlockingQueue queue, int n){
-        taskQueue = queue;
         this.n = n;
     }
 
@@ -80,4 +72,6 @@ public class Prime implements Runnable{
         Prime thread = new Prime(7);
         thread.run();
     }
+
+
 }
