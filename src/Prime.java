@@ -1,14 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Jordan on 10/4/2017.
  */
 public class Prime implements Runnable{
+    private BlockingQueue taskQueue = null;
+    private boolean       isStopped = false;
 
+    private List<Integer> primes = new ArrayList<>();   // list to hold previous primes
+    private int n;
+
+    public Prime(int n){
+        this.n = n;
+    }
+
+    public Prime(BlockingQueue queue, int n){
+        taskQueue = queue;
+        this.n = n;
+    }
 
     //checks whether an int is prime or not.
-    public static boolean isPrime(int n) {
+    public boolean isPrime(int n) {
 
         if (n < 2) return false;
 
@@ -27,51 +41,43 @@ public class Prime implements Runnable{
         return true;
     }
 
-    public static int nthPrime(int n) {
+    public int nthPrime(int n) throws InterruptedException {
 
         if (n < 1) return 0;
 
-        int candidate, count;
-        for(candidate = 2, count = 0; count < n; ++candidate) {
-            if (isPrime(candidate)) {
+        int i, count;
+        for(i = 2, count = 0; count < n; ++i) {
+            if (isPrime(i)) {
                 ++count;
+                primes.add(i);
             }
         }
 
+        printPrimes();
+
         // The candidate has been incremented once after the count reached n
-        return candidate-1;
+        System.out.println(String.format("Nth prime number: %d", i-1));
+        return i-1;
     }
 
-    public static void main(String[] args) {
-        Prime thread = new Prime();
-        thread.run();
-
-        /*
-        List<Runnable> runnables = new ArrayList<>();
-        runnables.add(thread);
-        for (Runnable runnable : runnables) {
-            runnable.run();
+    public void printPrimes() throws InterruptedException {
+        for (Integer integer : primes) {
+            System.out.println(integer);
+            Thread.sleep(10);
         }
-        */
     }
 
     @Override
     public void run() {
-        // main job execution
-        int[] testArray = {1,3,4,5,7,8};
-        int ans;
-        // sleep once for all numbers processed in batch
         try {
-            Thread.sleep(10);
+            nthPrime(this.n);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        // calculate nth primes of numbers in array
-        for (int i = 0; i < testArray.length; i++) {
-            ans = Prime.nthPrime(testArray[i]);
-            System.out.println(ans);
-            // log answer
-        }
+    public static void main(String[] args) {
+        Prime thread = new Prime(7);
+        thread.run();
     }
 }

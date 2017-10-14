@@ -1,6 +1,4 @@
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * Created by Jordan on 10/5/2017.
@@ -12,6 +10,8 @@ public class FixedSizeScheduler implements Executor {
     public FixedSizeScheduler(int numberOfThreads){
         this.numberOfThreads = numberOfThreads;
     }
+
+    private BlockingQueue queue = new ArrayBlockingQueue(1024);
 
     public int getNumberOfThreads() {
         return numberOfThreads;
