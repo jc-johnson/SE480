@@ -9,9 +9,9 @@ package Controllers;
 public class BatchingController {
 
     /*
-    private TaskHandler taskHandler;
+    private Seda.TaskHandler taskHandler;
 
-    public BatchingController(TaskHandler taskHandler) {
+    public BatchingController(Seda.TaskHandler taskHandler) {
         this.taskHandler = taskHandler;
     }
     */

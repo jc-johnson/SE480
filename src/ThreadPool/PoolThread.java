@@ -1,15 +1,25 @@
+package ThreadPool;
+
+import Exceptions.NullParameterException;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Jordan on 10/13/2017.
  */
-public class PoolThread implements Runnable {
-    private BlockingQueue taskQueue = new ArrayBlockingQueue(5);
+public class PoolThread extends Thread {
+    private BlockingQueue taskQueue;
     private boolean       isStopped = false;
 
-    public PoolThread(BlockingQueue queue){
-        taskQueue = queue;
+
+    public PoolThread(BlockingQueue queue) throws NullParameterException {
+
+        if (queue != null) {
+            taskQueue = queue;
+        }
+
+        else throw new NullParameterException();
     }
 
 
@@ -29,8 +39,7 @@ public class PoolThread implements Runnable {
 
     public synchronized void doStop(){
         isStopped = true;
-        // this.interrupt(); //break pool thread out of dequeue() call.
-        this.doStop();
+        this.interrupt(); //break pool thread out of dequeue() call.
     }
 
     public synchronized boolean isStopped(){
