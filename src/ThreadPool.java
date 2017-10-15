@@ -26,7 +26,7 @@ public class ThreadPool {
         // add tasks to queue
         initializeQueue(maxNumberOfTasks);
 
-        // create new threads to execute tasks on queue
+        // create new threads that execute tasks on queue when run
         for(int i=0; i<numberOfThreads; i++){
             threads.add(new PoolThread(taskQueue));
         }
@@ -37,6 +37,7 @@ public class ThreadPool {
         }
     }
 
+    // initialize queue with custom Prime tasks
     public void initializeQueue(int numberOfTasks) {
         if (numberOfTasks < this.maxNumberOfTasks) {
             for (int i = 0; i < numberOfTasks; i++) {
