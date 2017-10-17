@@ -1,5 +1,8 @@
 package Controllers;
 
+import Seda.TaskHandler;
+import com.sun.javafx.tk.Toolkit;
+
 /**
  * Created by Jordan on 10/15/2017.
  *
@@ -15,6 +18,14 @@ public class BatchingController {
         this.taskHandler = taskHandler;
     }
     */
+
+    public void increaseTasksProcessed(TaskHandler taskHandler) {
+
+    }
+
+    public void decreaseTasksProcessed(TaskHandler taskHandler ) {
+
+    }
 
 
 }

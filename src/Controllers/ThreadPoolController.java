@@ -9,21 +9,23 @@ import ThreadPool.ThreadPool;
  */
 public class ThreadPoolController {
 
-    private SedaStage sedaStage;
-
-    public ThreadPoolController(SedaStage sedaStage) {
-        this.sedaStage = sedaStage;
-    }
-
     public void addThread(ThreadPool threadPool){
-        try {
-            threadPool.addThread();
-        } catch (NullParameterException e) {
-            e.printStackTrace();
+
+        if (threadPool != null) {
+            try {
+                threadPool.addThread();
+            } catch (NullParameterException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public void removeThread(ThreadPool threadPool){
-        threadPool.removeThread();
+
+        if (threadPool != null) {
+            threadPool.removeThread();
+        }
+
     }
 }

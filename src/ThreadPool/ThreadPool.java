@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -25,42 +26,51 @@ public class ThreadPool {
 
         this.maxNumberOfTasks = maxNumberOfTasks;
 
-        // add tasks to queue
-        try {
-            initializeQueue(maxNumberOfTasks);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // create new threads that execute tasks on queue when run
         for(int i=0; i<numberOfThreads; i++){
             threads.add(new PoolThread(taskQueue));
         }
 
-        // run each thread
-        for(PoolThread poolThread: threads){
-            poolThread.run();
-        }
     }
 
-    // initialize queue with custom Runnables.Prime tasks
+    /*
+    // initialize queue with custom tasks
     public void initializeQueue(int numberOfTasks) throws Exception {
         if (numberOfTasks < this.maxNumberOfTasks) {
             for (int i = 0; i < numberOfTasks; i++) {
                 int randomNumber = ThreadLocalRandom.current().nextInt(1, 100 + 1);
-                // taskQueue.add(new Prime(randomNumber));
-                execute(new Prime(randomNumber));
+                taskQueue.add(new Prime(randomNumber));
             }
         }
+    }
+    */
 
-
+    public void addTaskToQueue(Runnable task) {
+        if(this.isStopped) throw
+                new IllegalStateException("ThreadPool.ThreadPool is stopped");
+        taskQueue.add(task);
     }
 
+    public void addTaskToQueue(Callable task) {
+        if(this.isStopped) throw
+                new IllegalStateException("ThreadPool.ThreadPool is stopped");
+        taskQueue.add(task);
+    }
+
+
+    // add task to queue
     public synchronized void execute(Runnable task) throws Exception{
         if(this.isStopped) throw
                 new IllegalStateException("ThreadPool.ThreadPool is stopped");
 
         this.taskQueue.add(task);
+    }
+
+    public synchronized void start(){
+        this.isStopped = true;
+        for(PoolThread poolThread: threads){
+            poolThread.run();
+        }
     }
 
     public synchronized void stop(){
@@ -75,6 +85,7 @@ public class ThreadPool {
     }
 
     public void removeThread() {
-
+        threads.get(0).interrupt();
+        threads.remove(0);
     }
 }
